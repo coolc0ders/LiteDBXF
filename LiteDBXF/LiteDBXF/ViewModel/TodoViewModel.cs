@@ -1,4 +1,5 @@
 ﻿using LiteDBXF.Model;
+using LiteDBXF.Service;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -32,10 +33,14 @@ namespace LiteDBXF.ViewModel
             set { this.RaiseAndSetIfChanged(ref _todoTitl, value); }
         }
 
+        TodoLiteDBService _liteDBService;
+
         public ReactiveCommand AddCommand { get; private set; }
 
         public TodoViewModel()
         {
+            _liteDBService = new TodoLiteDBService();
+            Todos = new ReactiveList<Todo>(_liteDBService.ReadAllItems());
 
             AddCommand = ReactiveCommand.Create(() =>
             {
