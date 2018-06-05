@@ -44,21 +44,20 @@ namespace LiteDBXF.ViewModel
             var todos = _liteDBService.ReadAllItems();
             if (todos.Any())
             {
-                Todos = new ReactiveList<Todo>(todos);
+                Todos = new ReactiveList<Todo>(todos) { ChangeTrackingEnabled = true };
             }
-            else { Todos = new ReactiveList<Todo>(); }
+            else { Todos = new ReactiveList<Todo>() { ChangeTrackingEnabled = true }; }
 
             AddCommand = ReactiveCommand.Create(() =>
             {
-                Todos.Add(new Todo() { Title = TodoTitle });
+                var todo = new Todo() { Title = TodoTitle };
+                Todos.Add(todo);
                 TodoTitle = string.Empty;
+                _liteDBService.CreateItem(todo);
 
             }, this.WhenAnyValue(x => x.TodoTitle,
                 title =>
                 !String.IsNullOrEmpty(title)));
-
-            //Dont forget to set ChangeTrackingEnabled to true.
-            Todos = new ReactiveList<Todo>() { ChangeTrackingEnabled = true };
 
             ///Lets detect when ever a todo Item is marked as done 
             ///IF it is, it is sent to the bottom of the list
@@ -71,6 +70,7 @@ namespace LiteDBXF.ViewModel
                     {
                         Todos.Remove(x);
                         Todos.Add(x);
+                        _liteDBService.UpdateItem(x);
                     }
                 });
         }
