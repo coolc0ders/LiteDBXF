@@ -2,13 +2,37 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:LiteDBXF"
+             xmlns:vm="clr-namespace:LiteDBXF.ViewModel"
              x:Class="LiteDBXF.MainPage">
 
+    <ContentPage.BindingContext>
+        <vm:TodoViewModel/>
+    </ContentPage.BindingContext>
+
     <StackLayout>
-        <!-- Place new controls here -->
-    	<Label Text="Welcome to Xamarin.Forms!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
+        <ListView x:Name="MyListView"
+            ItemsSource="{Binding Todos}"
+            SelectedItem="{Binding SelectedTodo}"
+            CachingStrategy="RecycleElement">
+
+            <!--Custom View Cells-->
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell IsEnabled="{Binding IsEnabled}">
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="{Binding Title}" Style="{DynamicResource ListItemTextStyle}" HorizontalOptions="Start"/>
+                            <Switch IsToggled="{Binding IsDone}" HorizontalOptions="End" IsEnabled="{Binding IsEnabled}"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+        <StackLayout Orientation="Horizontal">
+            <Entry Text="{Binding TodoTitle}" HorizontalOptions="FillAndExpand"/>
+            <Button Text="Add" HorizontalOptions="End" Command="{Binding AddCommand}"/>
+        </StackLayout>
     </StackLayout>
 
 </ContentPage>
