@@ -1,9 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="LiteDB" Version="4.1.3" />
     <PackageReference Include="ReactiveUI.XamForms" Version="8.2.1" />

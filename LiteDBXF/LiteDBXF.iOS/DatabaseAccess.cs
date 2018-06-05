@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text;
 
 using Foundation;
+using LiteDBXF.iOS;
 using UIKit;
 
+[assembly: Xamarin.Forms.Dependency(typeof(DatabaseAccess))]
 namespace LiteDBXF.iOS
 {
     public class DatabaseAccess : IDataBaseAccess

@@ -10,7 +10,9 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using LiteDBXF.Droid;
 
+[assembly: Xamarin.Forms.Dependency(typeof(DatabaseAccess))]
 namespace LiteDBXF.Droid
 {
     public class DatabaseAccess : IDataBaseAccess

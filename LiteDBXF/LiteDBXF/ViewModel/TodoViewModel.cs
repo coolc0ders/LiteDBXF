@@ -3,6 +3,7 @@ using LiteDBXF.Service;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
 
@@ -40,7 +41,12 @@ namespace LiteDBXF.ViewModel
         public TodoViewModel()
         {
             _liteDBService = new TodoLiteDBService();
-            Todos = new ReactiveList<Todo>(_liteDBService.ReadAllItems());
+            var todos = _liteDBService.ReadAllItems();
+            if (todos.Any())
+            {
+                Todos = new ReactiveList<Todo>(todos);
+            }
+            else { Todos = new ReactiveList<Todo>(); }
 
             AddCommand = ReactiveCommand.Create(() =>
             {
